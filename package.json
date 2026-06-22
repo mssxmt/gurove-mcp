@@ -1,0 +1,21 @@
+{
+  "name": "gurove-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for GuRove drum synth — OSC bridge with sound-design knowledge",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "osc": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/osc": "^2.2.0",
+    "typescript": "^5.6.0"
+  }
+}
