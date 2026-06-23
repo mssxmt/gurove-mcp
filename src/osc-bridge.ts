@@ -5,7 +5,7 @@ const RECEIVE_PORT = 9002;
 const SEND_PORT = 9001;
 
 export class OscBridge {
-  private udp: osc.UDPPort;
+  private udp: any;
 
   constructor() {
     this.udp = new osc.UDPPort({
