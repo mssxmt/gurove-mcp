@@ -1,4 +1,5 @@
-import * as osc from "osc";
+import { createRequire } from "module";
+const osc = createRequire(import.meta.url)("osc");
 
 const GUROVE_IP = "127.0.0.1";
 const RECEIVE_PORT = 9002;
