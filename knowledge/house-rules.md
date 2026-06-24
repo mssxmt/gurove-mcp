@@ -25,7 +25,10 @@
 ### Hi-hat = metal + noise
 - Waveform square/saw (NOT sine/tri — those have no metal).
 - High note 70-92, very short decay (closed 20-60ms, open 150-400ms).
-- White noise (`noiseColor 0`), high LPF (9000-12000), reso 0.3-0.6.
+- **Noise is essential** — `noiseLevel` should be 0.45-0.7. Without it, the
+  hat sounds synthetic and weak. White noise (`noiseColor 0`) for air,
+  pink (`noiseColor 0.5-1.0`) for darker hats. **When in doubt, raise noise.**
+- High LPF (9000-12000), reso 0.3-0.6.
 - Clank: `fmMode=RM`, `fmAmount 0.25-0.4`, `fmRatio` non-integer (2.5-3.2).
 
 ### Clap = noisier, layered snare
