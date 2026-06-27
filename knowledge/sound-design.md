@@ -83,7 +83,10 @@ modulator. After the P0/P1 fixes:
 - Wet-only return, same as reverb. Tone = feedback LPF damping.
 
 ### Stutter (per-channel + master)
-- On/off, sync/free rate. Captures and loops a slice.
+- On/off, sync/free rate. Captures a slice at ON and loops it (frozen).
+- Rate is live: turning the rate knob mid-loop follows the sound immediately
+  (no dry leak). Sync choices are 1/128..1/4 (CW = slower); Free is 1..500 ms
+  (CW = longer) — both CW = longer/slower.
 
 ### Limiter (`masterLimiterOn`, `limiterCeiling`)
 - Brickwall, JUCE dsp::Limiter, release 100ms. Ceiling in dB (-12..0),
