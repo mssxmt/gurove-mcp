@@ -92,6 +92,24 @@ modulator. After the P0/P1 fixes:
 - Brickwall, JUCE dsp::Limiter, release 100ms. Ceiling in dB (-12..0),
   default -0.3. Keep ON for distribution.
 
+### LFO Modulation (per-channel 2 + master 2)
+- Each LFO modulates one same-scope APVTS parameter (`dest`). Channel LFOs →
+  own channel params; master LFOs → master params. Single dest per LFO.
+- `dest` choices (append-only, index persisted): None + scope params.
+  `stutterRate`/`masterStutterRate` are virtual — resolve to syncRate or
+  freeRate depending on the stutter's current mode.
+- 13 waveforms (bipolar [-1,+1]): Sine, Triangle, SawUp, SawDown, Square,
+  Ramp, SampleHold, SmoothRandom, ExpUp, ExpDown, Pulse (25% duty),
+  Staircase (4-step), Trapezoid (symmetric rounded square).
+- `depth` is bipolar [-1,+1] (negative inverts). `rateMode` Sync/Free;
+  Sync = 1/1..1/128, Free = 0.01..40 Hz.
+- Parameter-write model on a 60Hz message-thread Timer: LFO writes the target
+  via `setValueNotifyingHost` (knobs/switches animate). processBlock reads the
+  modulated value via `->load()` like any param.
+- Base-value management: on dest change the current param value is captured as
+  baseNorm; clearing dest (None) restores it. Saving a preset mid-modulation
+  stores baseNorm (not the live LFO value).
+
 ## 10. Signal chain (one channel)
 ```
 Osc(+pitchEnv) → [FM if active] → Mixer(+noise+click) → LPF(SVF)
