@@ -102,7 +102,7 @@ modulator. After the P0/P1 fixes:
   Ramp, SampleHold, SmoothRandom, ExpUp, ExpDown, Pulse (25% duty),
   Staircase (4-step), Trapezoid (symmetric rounded square).
 - `depth` is bipolar [-1,+1] (negative inverts). `rateMode` Sync/Free;
-  Sync = 1/1..1/128, Free = 0.01..40 Hz.
+  Sync = 1/1..1/128 (CW = slower, matching stutter convention); Free = 0.01..40 Hz.
 - Parameter-write model on a 60Hz message-thread Timer: LFO writes the target
   via `setValueNotifyingHost` (knobs/switches animate). processBlock reads the
   modulated value via `->load()` like any param.
