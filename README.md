@@ -1,6 +1,6 @@
 # gurove-mcp
 
-MCP server for [**GuRove**](https://github.com/mssxmt/gurove) — a generative
+MCP server for [**GuRove**](https://lab.mssxmt.com/gurove/) — a generative
 drum synthesizer / synth. Lets Claude (or any MCP-compatible LLM) control
 GuRove via OSC, with built-in sound-design knowledge.
 
@@ -24,7 +24,7 @@ So you can say things like:
 
 ## Requirements
 
-1. **[GuRove](https://github.com/mssxmt/gurove)** app running (it has a
+1. **[GuRove](https://lab.mssxmt.com/gurove/)** app running (it has a
    built-in OSC server on UDP port 9001)
 2. **Node.js 18+** and npm
 3. **Claude Desktop** or **Claude Code** (supports MCP)
