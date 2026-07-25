@@ -66,6 +66,9 @@ modulator. After the P0/P1 fixes:
 - `seqFreeze=1` locks the generated pattern (reproducible); 0 regenerates.
 - pitchQuantize snaps the **channel's fixed pitch** (not per-step) to the
   chosen scale — so melodic work is done by channel assignment + seq timing.
+- `seqAlgorithm=9 (OFF)` stops the sequencer from triggering the channel;
+  only MIDI/OSC noteIn plays it (the voice still responds to `trigger_note`
+  and live MIDI).
 
 ## 9. Master effects (send bus, post-P1)
 

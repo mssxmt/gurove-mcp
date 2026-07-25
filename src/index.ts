@@ -45,7 +45,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (req) => {
 const TOOLS = [
   {
     name: "set_param",
-    description: "Set a GuRove APVTS parameter. channel='master' or 'ch1'..'ch8'. param is the APVTS suffix (pitch, decay, reverbLevel, etc.). value is 0.0-1.0 (normalized). For real values use setraw_param. Key params: pitch(MIDI 0-127), decay(ms), pitchEnvAmount(±48), fmAmount(0-1), filterCutoff(20-20000Hz), vol(0-1), seqAlgorithm(0-8).",
+    description: "Set a GuRove APVTS parameter. channel='master' or 'ch1'..'ch8'. param is the APVTS suffix (pitch, decay, reverbLevel, etc.). value is 0.0-1.0 (normalized). For real values use setraw_param. Key params: pitch(MIDI 0-127), decay(ms), pitchEnvAmount(±48), fmAmount(0-1), filterCutoff(20-20000Hz), vol(0-1), seqAlgorithm(0-9; 9=OFF disables the internal sequencer, ch fires from MIDI/OSC noteIn only).",
     inputSchema: { type: "object", properties: { channel: { type: "string" }, param: { type: "string" }, value: { type: "number" } }, required: ["channel", "param", "value"] },
   },
   {
@@ -125,13 +125,13 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
       case "list_presets": {
         const reply = await osc.sendAndWait("/gurove/preset/list", "/gurove/preset/list");
-        return { content: [{ type: "text", text: reply.args[0]?.value ?? "[]" }] };
+        return { content: [{ type: "text", text: reply.args[0] ?? "[]" }] };
       }
 
       case "status": {
         const reply = await osc.sendAndWait("/gurove/status", "/gurove/status");
         const a = reply.args;
-        return { content: [{ type: "text", text: `Transport: ${a[0]?.value ? "running" : "stopped"}, BPM: ${a[1]?.value?.toFixed(1)}, Preset: ${a[2]?.value}` }] };
+        return { content: [{ type: "text", text: `Transport: ${a[0] ? "running" : "stopped"}, BPM: ${a[1]?.toFixed(1)}, Preset: ${a[2]}` }] };
       }
 
       case "trigger_note":
