@@ -125,13 +125,13 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
 
       case "list_presets": {
         const reply = await osc.sendAndWait("/gurove/preset/list", "/gurove/preset/list");
-        return { content: [{ type: "text", text: reply.args[0]?.value ?? "[]" }] };
+        return { content: [{ type: "text", text: reply.args[0] ?? "[]" }] };
       }
 
       case "status": {
         const reply = await osc.sendAndWait("/gurove/status", "/gurove/status");
         const a = reply.args;
-        return { content: [{ type: "text", text: `Transport: ${a[0]?.value ? "running" : "stopped"}, BPM: ${a[1]?.value?.toFixed(1)}, Preset: ${a[2]?.value}` }] };
+        return { content: [{ type: "text", text: `Transport: ${a[0] ? "running" : "stopped"}, BPM: ${a[1]?.toFixed(1)}, Preset: ${a[2]}` }] };
       }
 
       case "trigger_note":
