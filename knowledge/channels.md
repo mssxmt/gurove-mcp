@@ -106,12 +106,18 @@ typical values, and common failure modes (so the LLM can self-correct).
 | 6 | KickPattern | kick core (seed % 8 picks variant) |
 | 7 | SnarePattern | snare core |
 | 8 | HihatPattern | hat core |
+| 9 | OFF | sequencer disabled — ch fires from MIDI/OSC noteIn only |
 
 - **Deterministic core**: kick/snare/hat use algo 6/7/8 with
   `seqTriggerRate=1.0`, `seqFreeze=1`, `seqSeed` picks the named variant.
 - **Evolving texture**: perc/FX/ambient can use algo 1-5 with
   `seqFreeze=0` (regenerates each play) and `seqTriggerRate<1.0` (stochastic
   gating) — the "experimental" presets 17-40 do this.
+- **Disabled (OFF, algo 9)**: the internal sequencer does not trigger this
+  channel — it only sounds from external noteIn (live MIDI, the
+  `trigger_note` tool, or `/gurove/note` OSC). `seqTriggerRate`/`seqFreeze`/
+  `seqSeed` have no effect. Use it to free a channel for manual/external
+  playing while keeping the voice itself audible on demand.
 
 ## 4. Pitch quantization (for melodic channels)
 

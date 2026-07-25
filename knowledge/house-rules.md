@@ -115,6 +115,11 @@ ambient:
 3. `seqSteps=16` for a bar (1 step = 1/16 note); 32 for slow/ambient.
 4. `seqTriggerRate<1.0` is a **probability gate** (stochastic thinning), not
    a clock division. Use it for sparseness, not groove.
+5. **OFF (algo 9)** disables the internal sequencer for that channel — it
+   only fires from external noteIn (live MIDI, `trigger_note`, or
+   `/gurove/note` OSC). seqTriggerRate/seqFreeze/seqSeed are ignored. Use it
+   when a channel should be played manually/externally rather than
+   auto-triggered.
 
 ## 5. Mix balance
 
@@ -146,3 +151,5 @@ ambient:
 - **LPF only** (SVF) — no HPF/BPF.
 - **No sampler** — everything is synthesized.
 - **Standalone on macOS/iPadOS** (Windows needs a build environment).
+- **seqAlgorithm=9 (OFF)** disables the internal sequencer for that channel;
+  the channel then only sounds from external input (MIDI/OSC noteIn).
