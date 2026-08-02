@@ -95,6 +95,16 @@ modulator. After the P0/P1 fixes:
 - Brickwall, JUCE dsp::Limiter, release 100ms. Ceiling in dB (-12..0),
   default -0.3. Keep ON for distribution.
 
+### Sidechain Duck (`sidechainOn`, `sidechainTrigger`, `sidechainDepth`, `sidechainAttack`, `sidechainRelease`)
+- Bus-level ducking: the selected trigger channel's Note On (from sequencer,
+  MIDI, or OSC) fires an AR gain envelope that attenuates the master mix.
+- The trigger channel itself is NOT ducked (punch-through), so the kick
+  cuts through while everything else dips.
+- Reverb/delay wet returns are added AFTER ducking — they are not attenuated.
+- Defaults: off, trigger None, depth 0.5, attack 5ms, release 150ms.
+- Depth 1.0 = full cut (gain → 0). Short attack (1-5ms) = punchy; long
+  release (300-800ms) = pumping.
+
 ### LFO Modulation (per-channel 2 + master 2)
 - Each LFO modulates one same-scope APVTS parameter (`dest`). Channel LFOs →
   own channel params; master LFOs → master params. Single dest per LFO.
@@ -118,6 +128,7 @@ modulator. After the P0/P1 fixes:
 Osc(+pitchEnv) → [FM if active] → Mixer(+noise+click) → LPF(SVF)
   → Drive+Punch → AmpEnv × velocity → Panner → channel vol/smooth
   → (stutter) → [sends to reverb/delay bus] + direct out → master mix
+  → [sidechain duck: trigger-ch punch-through, others attenuated]
   → masterVol → masterStutter → limiter → out
 ```
 
