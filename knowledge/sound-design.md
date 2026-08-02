@@ -100,7 +100,10 @@ modulator. After the P0/P1 fixes:
   MIDI, or OSC) fires an AR gain envelope that attenuates the master mix.
 - The trigger channel itself is NOT ducked (punch-through), so the kick
   cuts through while everything else dips.
-- Reverb/delay wet returns are added AFTER ducking — they are not attenuated.
+- Ducking is applied per-channel DURING the master mix summation: the trigger
+  channel passes at full gain (×1.0) while all others are scaled by the duck
+  envelope. Reverb/delay wet returns are summed AFTER this stage — they are
+  not attenuated.
 - Defaults: off, trigger None, depth 0.5, attack 5ms, release 150ms.
 - Depth 1.0 = full cut (gain → 0). Short attack (1-5ms) = punchy; long
   release (300-800ms) = pumping.
@@ -127,8 +130,9 @@ modulator. After the P0/P1 fixes:
 ```
 Osc(+pitchEnv) → [FM if active] → Mixer(+noise+click) → LPF(SVF)
   → Drive+Punch → AmpEnv × velocity → Panner → channel vol/smooth
-  → (stutter) → [sends to reverb/delay bus] + direct out → master mix
-  → [sidechain duck: trigger-ch punch-through, others attenuated]
+  → (stutter) → [sends to reverb/delay bus] + direct out
+  → master mix (per-ch duck: trigger-ch ×1.0, others ×duckGain)
+  → + reverb/delay returns (post-duck, not attenuated)
   → masterVol → masterStutter → limiter → out
 ```
 
