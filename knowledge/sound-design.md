@@ -108,6 +108,16 @@ modulator. After the P0/P1 fixes:
 - Depth 1.0 = full cut (gain → 0). Short attack (1-5ms) = punchy; long
   release (300-800ms) = pumping.
 
+### Parallel Output (`ch{N}_paraOut`, VST3 only)
+- Per-channel bool (default off). When ON and the host has enabled the ch's
+  stereo aux bus (Ch1..Ch8), the dry post-ch-vol signal is written to that
+  bus instead of the master bus — no reverb/delay sends, no sidechain duck,
+  no master vol/stutter/limiter. The DAW owns the rest of the chain.
+- **VST3 plugin format only** (v1.1.0+). In Standalone the aux buses are
+  force-disabled (JUCE limitation) and the UI toggle is hidden — setting
+  `paraOut` via OSC/MCP is accepted but has no audible effect there (leave
+  it 0).
+
 ### LFO Modulation (per-channel 2 + master 2)
 - Each LFO modulates one same-scope APVTS parameter (`dest`). Channel LFOs →
   own channel params; master LFOs → master params. Single dest per LFO.

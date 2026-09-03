@@ -45,7 +45,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (req) => {
 const TOOLS = [
   {
     name: "set_param",
-    description: "Set a GuRove APVTS parameter. channel='master' or 'ch1'..'ch8'. param is the APVTS suffix (pitch, decay, reverbLevel, etc.). value is 0.0-1.0 (normalized). For real values use setraw_param. Key params: pitch(MIDI 0-127), decay(ms), pitchEnvAmount(±48), fmAmount(0-1), filterCutoff(20-20000Hz), vol(0-1), seqAlgorithm(0-9; 9=OFF disables the internal sequencer, ch fires from MIDI/OSC noteIn only).",
+    description: "Set a GuRove APVTS parameter. channel='master' or 'ch1'..'ch8'. param is the APVTS suffix (pitch, decay, reverbLevel, etc.). value is 0.0-1.0 (normalized). For real values use setraw_param. Key params: pitch(MIDI 0-127), decay(ms), pitchEnvAmount(±48), fmAmount(0-1), filterCutoff(20-20000Hz), vol(0-1), seqAlgorithm(0-9; 9=OFF disables the internal sequencer, ch fires from MIDI/OSC noteIn only). Note: paraOut is VST3-only — inert in the Standalone this bridge controls, leave it 0.",
     inputSchema: { type: "object", properties: { channel: { type: "string" }, param: { type: "string" }, value: { type: "number" } }, required: ["channel", "param", "value"] },
   },
   {
