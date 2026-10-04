@@ -23,6 +23,14 @@ bass, or FX (see the melodic/ambient presets 31-40).
 Unused channels → set `vol = 0` (the engine still runs them, but they're
 silent and free of send-bus contribution).
 
+### Tonal source vs. Noise layer
+
+- `oscGain` 0-1 (default 1) controls the complete tonal source
+  (plain oscillator or FM/AM/RM/Sync) and Click together.
+- Noise remains independent. `oscGain=0` with `noiseLevel>0` produces a true
+  noise-only channel; low non-zero values blend a faint tonal/click layer back in.
+- Use channel `vol=0` only to mute the entire channel, including Noise and sends.
+
 ## 2. Per-channel recipes
 
 Each section lists: role, pitch range, waveform, required elements, genre
@@ -134,8 +142,11 @@ typical values, and common failure modes (so the LLM can self-correct).
 
 - Channel params: `ch{N}_{param}` with N = 1..8 (e.g. `ch1_pitch`,
   `ch3_seqAlgorithm`).
+- OSC Gain IDs are `ch1_oscGain`, `ch2_oscGain`, `ch3_oscGain`,
+  `ch4_oscGain`, `ch5_oscGain`, `ch6_oscGain`, `ch7_oscGain`, and
+  `ch8_oscGain`. Range 0-1, default 1; it is not an LFO destination.
 - Master params: no prefix (`masterVol`, `bpm`, `reverbLevel`, ...).
-- This matters for OSC/MCP: `channel="ch1"`, `param="pitch"` → ID `ch1_pitch`.
+- For OSC/MCP, `channel="ch1"`, `param="oscGain"` maps to `ch1_oscGain`.
 
 ## 6. Quick "make it sound good" defaults
 

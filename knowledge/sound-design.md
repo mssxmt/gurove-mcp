@@ -10,6 +10,15 @@
 - **Choice rule**: sine/tri for kick bodies & pads; saw/square for hats,
   bass, FM carriers, bright leads.
 
+### OSC section gain (`oscGain`)
+- `oscGain` 0-1 (default 1) attenuates the complete tonal source after plain
+  oscillator or FM/AM/RM/Sync processing, plus the click transient.
+- It **does not affect the Noise layer**. Set `oscGain=0` for true noise-only
+  hats, claps, or texture; use an intermediate value to blend tone/click back in.
+- Muting with `oscGain=0` does not freeze oscillator or modulation phase.
+- `oscGain` is not a channel LFO destination; set it directly or save it in a
+  preset.
+
 ## 2. Pitch envelope (AHDC)
 - `pitchEnvAmount` ±48 semitones, applied to oscillator pitch. **Starts at
   +amount and decays to the base** (so positive = drop, negative = rise).
@@ -34,10 +43,10 @@ modulator. After the P0/P1 fixes:
 
 ## 4. Noise & click layers
 - `noiseLevel` 0-1, `noiseColor` 0-1 (0=white, 1=pink).
-- Add to the osc mix (after osc, before filter). Snare/hat/clap need it;
-  kick/bass usually 0.
+- Noise is added independently of `oscGain`. Snare/hat/clap need it; kick/bass
+  usually use little or none.
 - `clickLevel` 0-1: very short transient on top — the beater/attack. Kick
-  0.2-0.4, others usually 0.
+  0.2-0.4, others usually 0. Its final level is also scaled by `oscGain`.
 
 ## 5. Filter (SVF lowpass only)
 - `filterCutoff` 20-20000 Hz (log-skew). `resonance` 0-1.
@@ -128,9 +137,12 @@ modulator. After the P0/P1 fixes:
 
 ## 10. Signal chain (one channel)
 ```
-Osc(+pitchEnv) → [FM if active] → Mixer(+noise+click) → LPF(SVF)
-  → Drive+Punch → AmpEnv × velocity → Panner → channel vol/smooth
-  → (stutter) → [sends to reverb/delay bus] + direct out
+[Osc(+pitchEnv) or FM/AM/RM/Sync] × oscGain
+  + noise × noiseLevel
+  + click × clickLevel × oscGain
+  → LPF(SVF) → Drive+Punch → AmpEnv × velocity → Panner
+  → channel vol/smooth → (stutter)
+  → [sends to reverb/delay bus] + direct out
   → master mix (per-ch duck: trigger-ch ×1.0, others ×duckGain)
   → + reverb/delay returns (post-duck, not attenuated)
   → masterVol → masterStutter → limiter → out
@@ -143,5 +155,6 @@ Osc(+pitchEnv) → [FM if active] → Mixer(+noise+click) → LPF(SVF)
 | Punchy techno kick | ch1: pitch 30, pitchEnvAmount 24, pitchEnvDecay 70, click 0.3, punch 0.55, drive 0.3, cutoff 900, decay 300 |
 | 808 sub bass | ch7: sine, pitch 28, decay 700, cutoff 300, drive 0.1, fmAmount 0 |
 | Bell-like FM perc | ch5: tri 72, fmMode FM, fmAmount 0.6, fmRatio 2.4, decay 200 |
+| Noise-only hat | ch3: oscGain 0, noiseLevel 1, noiseColor 0, decay 35, cutoff 10000 |
 | Airy pad | ch8: saw 48, attack 20, decay 2500, curve log, cutoff 1200, fmAmount 0.3 fmRatio 0.5, reverbSend 0.6 |
 | Dark ambient drone | ch1+ch2 low sine/saw, long decay, fmRatio 0.5, reverbLevel 0.6 decay 8 |

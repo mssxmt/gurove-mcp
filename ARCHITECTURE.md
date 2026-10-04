@@ -32,7 +32,7 @@ A thin Node.js bridge that exposes three things to Claude:
 
 | Primitive | Purpose | Example |
 |-----------|---------|---------|
-| **Tools** | Actions Claude can perform | `set_param("ch1", "pitch", 0.5)` |
+| **Tools** | Actions Claude can perform | `set_param("ch3", "oscGain", 0)` |
 | **Resources** | Knowledge Claude can read | `gurove://house-rules` (drum anatomy) |
 | **Prompts** | Templates for common tasks | (planned: `make_techno_kit`) |
 
@@ -103,7 +103,11 @@ You say: *"Load Detroit Techno and start playback"*
 | `/gurove/status` | — | → GuRove, ← reply |
 
 **channel**: `"master"` or `"ch1"`..`"ch8"`
-**param**: APVTS suffix (`pitch`, `decay`, `reverbLevel`, `fmAmount`, etc.)
+**param**: APVTS suffix (`pitch`, `decay`, `oscGain`, `reverbLevel`, `fmAmount`, etc.)
+
+The bridge intentionally has no parameter allowlist: it forwards the suffix to
+GuRove's APVTS lookup. For example, `channel="ch3"`, `param="oscGain"` maps to
+`ch3_oscGain`; value 0 removes OSC/Click while leaving Noise untouched.
 
 ## Why Not Just MIDI?
 

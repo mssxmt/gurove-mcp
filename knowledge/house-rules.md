@@ -23,16 +23,19 @@
 - Metallic: `fmMode=RM`, `fmAmount 0.3-0.5`, `fmRatio` non-integer (1.3-1.7).
 
 ### Hi-hat = metal + noise
-- Waveform: sine (0) or square (3). For **noise-dominant hats** use sine so the
-  oscillator doesn't mask the noise — the noise IS the hat, the osc is just a
-  faint carrier.
-- **pitch**: set to the highest of all channels (MIDI 90-96).
+- For a **true noise-only hat**, set `oscGain=0` and `noiseLevel=1`. This removes
+  the oscillator and Click without lowering the independent Noise layer.
+- For a metal/noise blend, use square (3) or saw (2), keep `oscGain` low, and
+  raise it only until the tonal clank supports the Noise.
+- **pitch**: set to the highest of all channels (MIDI 90-96). Pitch has no
+  audible effect when `oscGain=0`, but keep it high when blending tone back in.
 - **noiseLevel**: set to **1.0 (max)** for noise-dominant hats. The hat IS the noise.
 - **noiseColor**: 0 = white (bright/airy), 0.3-0.5 = slightly colored,
   1.0 = pink (dark/muffled). Pick a color that suits the genre.
 - Very short decay (closed 20-60ms, open 150-400ms).
 - High LPF (9000-12000), reso 0.3-0.6.
-- Clank: `fmMode=RM`, `fmAmount 0.25-0.4`, `fmRatio` non-integer (2.5-3.2).
+- Clank: `fmMode=RM`, `fmAmount 0.25-0.4`, `fmRatio` non-integer (2.5-3.2);
+  keep `oscGain>0` so the modulated source remains audible.
 
 ### Clap = noisier, layered snare
 - noiseLevel 0.5-0.7, slightly longer decay, LPF ~3000. Often offbeat.
@@ -135,8 +138,8 @@ ambient:
 |---------|--------------|-----|
 | Kick weak/thin | pitchEnvAmount ≈ 0 | set +18..+36 |
 | Kick muddy | drive too high / LPF too low | drive ≤0.4, cutoff ≥700 |
-| Hat sounds like a beep | sine/tri waveform | use square/saw + noise |
-| Hat too short/chintzy | noiseLevel=0 or decay <20ms | noise 0.4-0.6, decay 25-50ms |
+| Hat sounds like a beep | tonal source masks Noise | raise noiseLevel and lower oscGain; use oscGain=0 for noise-only |
+| Hat too short/chintzy | noiseLevel=0 or decay <20ms | noise 0.4-1.0, decay 25-50ms |
 | Snare lacks body | no tone layer (pure noise) | add tri/saw + short pitchEnv |
 | Groove sparse/random | seqTriggerRate<1 on core | set 1.0, seqFreeze=1 |
 | Reverb overwhelms | reverbLevel near 1 + long decay | 0.3-0.5, decay 3-5s |

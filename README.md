@@ -78,6 +78,7 @@ Open a conversation with Claude and try:
 - *"Set the reverb decay to 5 seconds"*
 - *"What does the FM modulation do?"*
 - *"Make an ambient pad with long reverb"*
+- *"Set channel 3 OSC Gain to zero so only the noise layer remains"*
 
 ## Tools
 
@@ -94,7 +95,12 @@ Open a conversation with Claude and try:
 | `trigger_note` | channel (1-8), velocity | Audition a voice |
 
 **channel**: `"master"` or `"ch1"`..`"ch8"`
-**param**: APVTS suffix (`pitch`, `decay`, `reverbLevel`, `fmAmount`, etc.)
+**param**: APVTS suffix (`pitch`, `decay`, `oscGain`, `reverbLevel`, `fmAmount`, etc.)
+
+`oscGain` is a per-channel 0-1 parameter (default 1). It scales the oscillator
+output—including FM/AM/RM/Sync—and Click, but never Noise. For a noise-only
+channel, call `set_param` or `setraw_param` with
+`{ "channel": "ch3", "param": "oscGain", "value": 0 }`.
 
 ## Resources (AI knowledge base)
 
